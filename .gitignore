@@ -1,0 +1,45 @@
+# Laravel
+/node_modules
+/vendor
+/.env
+/.env.local
+/.env.*.local
+/public/storage
+/public/hot
+/storage/*.key
+/bootstrap/cache
+.env.backup
+.env.production.local
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+# Vue
+/dist
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Database
+database.sqlite
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs
+*.log
+
+# Compiled files
+.cache
+.parcel-cache

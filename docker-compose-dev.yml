@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Development container (Apache + PHP + Node all-in-one)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-vue-dev
+    ports:
+      - "8000:80"
+      - "5173:5173"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      APP_NAME: "Laravel12Vue3"
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /app/database/database.sqlite
+      JWT_SECRET: test1234567890test1234567890test1234567890
+      JWT_ALGORITHM: HS256
+      JWT_TTL: 60
+      JWT_REFRESH_TTL: 20160
+      VITE_API_URL: http://localhost:8000/api
+    command: bash -c "
+      php artisan migrate &&
+      npm run dev &
+      apache2ctl -D FOREGROUND
+    "
+    networks:
+      - app-network
+
+volumes:
+  database-volume:
+
+networks:
+  app-network:
+    driver: bridge
