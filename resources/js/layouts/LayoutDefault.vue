@@ -71,12 +71,12 @@ import { ref } from 'vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const modal = useModal();
+const { showConfirm } = useModal();
 const isGlobalLoading = ref(false);
 const loadingMessage = ref('');
 
 const handleLogout = () => {
-  modal.showConfirm('Bạn có chắc muốn đăng xuất?', async () => {
+  showConfirm('Bạn có chắc muốn đăng xuất?', async () => {
     await authStore.logout();
     await router.push({ name: 'login' });
   });

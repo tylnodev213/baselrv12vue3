@@ -125,13 +125,13 @@
 
     <!-- Modal confirm delete -->
     <BaseModal
-      :is-open="modal.isOpen"
-      :title="modal.title"
-      :message="modal.message"
-      :type="modal.type"
-      :is-loading="modal.isLoading"
-      @confirm="modal.confirm"
-      @cancel="modal.cancel"
+      :is-open="isOpen"
+      :title="title"
+      :message="message"
+      :type="type"
+      :is-loading="isLoading"
+      @confirm="confirm"
+      @cancel="cancel"
     />
   </div>
 </template>
@@ -146,7 +146,7 @@ import BaseTable from '@/components/BaseTable.vue';
 import BaseModal from '@/components/BaseModal.vue';
 
 const productStore = useProductStore();
-const modal = useModal();
+const { isOpen, title, message, type, isLoading, confirm, cancel, showConfirm, showSuccess, showError } = useModal();
 
 const columns = [
   { key: 'id', label: 'ID', width: '60px' },
@@ -224,12 +224,12 @@ const handleEdit = (product) => {
 };
 
 const handleDelete = (product) => {
-  modal.showConfirm(`Bạn có chắc muốn xóa sản phẩm "${product.name}"?`, async () => {
+  showConfirm(`Bạn có chắc muốn xóa sản phẩm "${product.name}"?`, async () => {
     const result = await productStore.deleteProduct(product.id);
     if (result.success) {
-      modal.showSuccess('Xóa sản phẩm thành công!');
+      showSuccess('Xóa sản phẩm thành công!');
     } else {
-      modal.showError(result.message || 'Xóa sản phẩm thất bại');
+      showError(result.message || 'Xóa sản phẩm thất bại');
     }
   });
 };
@@ -253,7 +253,7 @@ const handleFormSubmit = async () => {
   }
 
   if (result.success) {
-    modal.showSuccess(isEditing.value ? 'Cập nhật thành công!' : 'Tạo mới thành công!');
+    showSuccess(isEditing.value ? 'Cập nhật thành công!' : 'Tạo mới thành công!');
     closeForm();
   } else {
     if (result.errors) {
@@ -265,7 +265,7 @@ const handleFormSubmit = async () => {
         }
       });
     } else {
-      modal.showError(result.message || 'Xảy ra lỗi');
+      showError(result.message || 'Xảy ra lỗi');
     }
   }
 };

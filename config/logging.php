@@ -16,13 +16,53 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily-dated'],
             'ignore_exceptions' => false,
         ],
 
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
+
+        'daily-dated' => [
+            'driver' => 'monolog',
+            'handler' => \App\Logging\DateBasedStreamHandler::class,
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
+
+        'web' => [
+            'driver' => 'monolog',
+            'handler' => \App\Logging\DateBasedStreamHandler::class,
+            'with' => [
+                'basePath' => storage_path('logs'),
+                'service' => 'web',
+            ],
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
+
+        'admin' => [
+            'driver' => 'monolog',
+            'handler' => \App\Logging\DateBasedStreamHandler::class,
+            'with' => [
+                'basePath' => storage_path('logs'),
+                'service' => 'admin',
+            ],
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
+
+        'batch' => [
+            'driver' => 'monolog',
+            'handler' => \App\Logging\DateBasedStreamHandler::class,
+            'with' => [
+                'basePath' => storage_path('logs'),
+                'service' => 'batch',
+            ],
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
         ],

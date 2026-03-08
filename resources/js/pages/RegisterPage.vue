@@ -65,13 +65,13 @@
     </div>
 
     <BaseModal
-      :is-open="modal.isOpen"
-      :title="modal.title"
-      :message="modal.message"
-      :type="modal.type"
-      :is-loading="modal.isLoading"
-      @confirm="modal.confirm"
-      @cancel="modal.cancel"
+      :is-open="isOpen"
+      :title="title"
+      :message="message"
+      :type="type"
+      :is-loading="isLoading"
+      @confirm="confirm"
+      @cancel="cancel"
     />
   </div>
 </template>
@@ -87,7 +87,7 @@ import BaseModal from '@/components/BaseModal.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const modal = useModal();
+const { isOpen, title, message, type, isLoading, confirm, cancel, showSuccess, showError } = useModal();
 const formRef = ref(null);
 
 const form = reactive({
@@ -157,7 +157,7 @@ const handleSubmit = async () => {
   });
 
   if (result.success) {
-    modal.showSuccess('Đăng ký thành công!');
+    showSuccess('Đăng ký thành công!');
     setTimeout(() => {
       router.push({ name: 'home' });
     }, 1500);
@@ -172,7 +172,7 @@ const handleSubmit = async () => {
         }
       });
     } else {
-      modal.showError(result.message || 'Đăng ký thất bại');
+      showError(result.message || 'Đăng ký thất bại');
     }
   }
 };

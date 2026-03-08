@@ -10,13 +10,13 @@
     </div>
 
     <BaseModal
-      :is-open="modal.isOpen"
-      :title="modal.title"
-      :message="modal.message"
-      :type="modal.type"
-      :is-loading="modal.isLoading"
-      @confirm="modal.confirm"
-      @cancel="modal.cancel"
+      :is-open="isOpen"
+      :title="title"
+      :message="message"
+      :type="type"
+      :is-loading="isLoading"
+      @confirm="confirm"
+      @cancel="cancel"
     />
   </div>
 </template>
@@ -25,7 +25,7 @@
 import { useModal } from '@/composables/useModal';
 import BaseModal from '@/components/BaseModal.vue';
 
-const modal = useModal();
+const { isOpen, title, message, type, isLoading, confirm, cancel } = useModal();
 </script>
 
 <style scoped>

@@ -24,7 +24,18 @@ class AuthController extends Controller
     {
         $validator = validator($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => [
+                'required',
+                'email',
+                function ($attribute, $value, $fail) {
+                    $exists = \App\Models\User::where('email', $value)
+                        ->where('del_flag', 0)
+                        ->exists();
+                    if ($exists) {
+                        $fail('The email has already been taken.');
+                    }
+                },
+            ],
             'password' => 'required|string|min:6|confirmed',
         ]);
 
