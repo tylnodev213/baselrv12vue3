@@ -2,6 +2,105 @@
 
 Một dự án hoàn chỉnh kết hợp Laravel 12 (Backend) và Vue 3 (Frontend) với các tính năng chuyên nghiệp.
 
+## 🚀 Quick Start - Chạy Web Ngay
+
+### Windows
+```bash
+# Chạy setup và start web server
+run_web.bat
+```
+
+### Linux/Mac
+```bash
+# Chạy setup và start web server
+chmod +x run_web.sh
+./run_web.sh
+```
+
+**Sau đó truy cập:**
+- **Frontend:** http://localhost:5173
+- **Backend API:** http://localhost:8000
+
+### Fix Node.js/Vite Issues
+```bash
+# Windows
+fix_nodejs.bat
+
+# Linux/Mac
+chmod +x fix_nodejs.sh
+./fix_nodejs.sh
+```
+
+### Fix Composer Issues
+```bash
+# Windows
+fix_composer.bat
+
+# Linux/Mac
+chmod +x fix_composer.sh
+./fix_composer.sh
+```
+
+### Docker (Alternative)
+```bash
+docker-compose -f docker-compose-dev.yml up
+```
+
+## 🐛 Troubleshooting
+
+### "'vite' is not recognized" Error
+This means Node.js or Vite is not installed:
+```bash
+# Fix automatically
+fix_nodejs.bat   # Windows
+./fix_nodejs.sh  # Linux/Mac
+
+# Or manual fix
+npm install
+npm run dev
+```
+
+### "Failed to open stream: No such file or directory" Error
+This means Composer dependencies are not installed:
+```bash
+# Fix automatically
+fix_composer.bat  # Windows
+./fix_composer.sh # Linux/Mac
+
+# Or manual fix
+composer install
+```
+
+### Database Connection Issues
+```bash
+# Test database
+php test_mysql.php
+
+# For SQLite instead of MySQL
+# Edit .env: DB_CONNECTION=sqlite
+```
+
+### Node.js Issues
+```bash
+# Install dependencies
+npm install
+
+# Build frontend
+npm run build
+```
+
+## 📚 Documentation
+
+- **[QUICK_WEB.md](QUICK_WEB.md)** - Hướng dẫn chạy web nhanh nhất
+- **[FIX_COMPOSER.md](FIX_COMPOSER.md)** - Fix lỗi vendor/autoload.php
+- **[LOCAL_SETUP.md](LOCAL_SETUP.md)** - Setup chi tiết cho local development
+- **[MYSQL_SETUP.md](MYSQL_SETUP.md)** - Hướng dẫn setup MySQL
+- **[DESKTOP_SHORTCUT.md](DESKTOP_SHORTCUT.md)** - Tạo shortcut trên desktop
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Kiến trúc và design patterns
+- **[DOCKER.md](DOCKER.md)** - Docker deployment guide
+- **[VALIDATORS.md](VALIDATORS.md)** - Custom validation rules
+- **[STRUCTURE.md](STRUCTURE.md)** - Cấu trúc thư mục chi tiết
+
 ## 🎯 Tính năng chính
 
 ### Backend (Laravel 12)
