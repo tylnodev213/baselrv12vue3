@@ -8,7 +8,7 @@ const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    Accept: 'application/json',
   },
 });
 
@@ -17,11 +17,11 @@ api.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore();
     const token = authStore.getAccessToken();
-    
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     return config;
   },
   (error) => {
@@ -39,7 +39,7 @@ api.interceptors.response.use(
     // Nếu token hết hạn, thử refresh
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      
+
       try {
         const refreshToken = authStore.getRefreshToken();
         if (!refreshToken) {
@@ -54,7 +54,7 @@ api.interceptors.response.use(
         if (response.data.success) {
           authStore.setAccessToken(response.data.data.access_token);
           api.defaults.headers.common.Authorization = `Bearer ${response.data.data.access_token}`;
-          
+
           return api(originalRequest);
         } else {
           authStore.logout();

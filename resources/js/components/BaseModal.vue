@@ -1,15 +1,21 @@
 <template>
   <teleport to="body">
     <transition name="modal-fade">
-      <div v-if="isOpen" class="modal-overlay" @click.self="handleCancel">
+      <div
+        v-if="isOpen"
+        class="modal-overlay"
+        @click.self="handleCancel"
+      >
         <div class="modal-content">
           <div class="modal-header">
-            <h2 class="modal-title">{{ title }}</h2>
+            <h2 class="modal-title">
+              {{ title }}
+            </h2>
             <button
               type="button"
               class="btn-close"
-              @click="handleCancel"
               :disabled="isLoading"
+              @click="handleCancel"
             >
               ✕
             </button>
@@ -17,7 +23,7 @@
 
           <div class="modal-body">
             <p>{{ message }}</p>
-            <slot></slot>
+            <slot />
           </div>
 
           <div class="modal-footer">
@@ -25,8 +31,8 @@
               v-if="type === 'confirm' || type === 'error' || type === 'warning'"
               type="button"
               class="btn btn-secondary"
-              @click="handleCancel"
               :disabled="isLoading"
+              @click="handleCancel"
             >
               {{ cancelButtonText }}
             </button>
@@ -35,12 +41,12 @@
               type="button"
               class="btn"
               :class="confirmButtonClass"
-              @click="handleConfirm"
               :disabled="isLoading"
+              @click="handleConfirm"
             >
               <span v-if="!isLoading">{{ confirmButtonText }}</span>
               <span v-else>
-                <span class="spinner-border spinner-border-sm me-2"></span>
+                <span class="spinner-border spinner-border-sm me-2" />
                 {{ loadingText }}
               </span>
             </button>
@@ -48,8 +54,8 @@
               v-if="type === 'info' || type === 'success' || type === 'error'"
               type="button"
               class="btn btn-primary"
-              @click="handleCancel"
               :disabled="isLoading"
+              @click="handleCancel"
             >
               {{ closeButtonText }}
             </button>

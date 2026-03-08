@@ -1,7 +1,10 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="form">
-    <slot></slot>
-    
+  <form
+    class="form"
+    @submit.prevent="handleSubmit"
+  >
+    <slot />
+
     <div class="form-actions">
       <button
         type="submit"
@@ -10,11 +13,11 @@
       >
         <span v-if="!isSubmitting">{{ submitText }}</span>
         <span v-else>
-          <span class="spinner-border spinner-border-sm me-2"></span>
+          <span class="spinner-border spinner-border-sm me-2" />
           {{ submitLoadingText }}
         </span>
       </button>
-      
+
       <button
         v-if="showCancel"
         type="button"

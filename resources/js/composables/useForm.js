@@ -22,9 +22,9 @@ export const useForm = () => {
    * Reset form
    */
   const resetForm = () => {
-    Object.keys(formData).forEach(key => delete formData[key]);
-    Object.keys(errors).forEach(key => delete errors[key]);
-    Object.keys(touched).forEach(key => delete touched[key]);
+    Object.keys(formData).forEach((key) => delete formData[key]);
+    Object.keys(errors).forEach((key) => delete errors[key]);
+    Object.keys(touched).forEach((key) => delete touched[key]);
   };
 
   /**
@@ -63,7 +63,7 @@ export const useForm = () => {
    * Clear all errors
    */
   const clearErrors = () => {
-    Object.keys(errors).forEach(key => delete errors[key]);
+    Object.keys(errors).forEach((key) => delete errors[key]);
   };
 
   /**
@@ -88,7 +88,7 @@ export const useForm = () => {
       const fieldErrors = [];
 
       if (Array.isArray(rules)) {
-        rules.forEach(rule => {
+        rules.forEach((rule) => {
           const error = rule(value, formData);
           if (error) {
             fieldErrors.push(error);

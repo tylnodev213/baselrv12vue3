@@ -3,14 +3,32 @@
     <nav class="navbar">
       <div class="container">
         <div class="navbar-brand">
-          <router-link to="/" class="logo">Laravel + Vue 3</router-link>
+          <router-link
+            to="/"
+            class="logo"
+          >
+            Laravel + Vue 3
+          </router-link>
         </div>
         <div class="navbar-menu">
-          <router-link to="/" class="nav-link">Trang chủ</router-link>
-          <router-link to="/products" class="nav-link">Sản phẩm</router-link>
+          <router-link
+            to="/"
+            class="nav-link"
+          >
+            Trang chủ
+          </router-link>
+          <router-link
+            to="/products"
+            class="nav-link"
+          >
+            Sản phẩm
+          </router-link>
           <div class="user-menu">
             <span class="user-name">{{ authStore.user?.name }}</span>
-            <button class="btn-logout" @click="handleLogout">
+            <button
+              class="btn-logout"
+              @click="handleLogout"
+            >
               Đăng xuất
             </button>
           </div>
@@ -32,9 +50,12 @@
       @cancel="modal.cancel"
     />
 
-    <div v-if="isGlobalLoading" class="loading-overlay">
+    <div
+      v-if="isGlobalLoading"
+      class="loading-overlay"
+    >
       <div class="spinner">
-        <div class="spinner-border"></div>
+        <div class="spinner-border" />
         <p>{{ loadingMessage }}</p>
       </div>
     </div>

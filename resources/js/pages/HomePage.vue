@@ -30,7 +30,10 @@
 
       <div class="feature-card">
         <h3>✅ Validation</h3>
-        <p>Form validation với error messages hiển thị dưới Input, response backend return status 200.</p>
+        <p>
+          Form validation với error messages hiển thị dưới Input, response backend return status
+          200.
+        </p>
       </div>
 
       <div class="feature-card">

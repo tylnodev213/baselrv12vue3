@@ -1,8 +1,15 @@
 <template>
   <div class="form-group">
-    <label v-if="label" :for="id" class="form-label">
+    <label
+      v-if="label"
+      :for="id"
+      class="form-label"
+    >
       {{ label }}
-      <span v-if="required" class="text-danger">*</span>
+      <span
+        v-if="required"
+        class="text-danger"
+      >*</span>
     </label>
     <input
       :id="id"
@@ -17,17 +24,20 @@
       @input="$emit('update:modelValue', $event.target.value)"
       @blur="$emit('blur')"
       @focus="$emit('focus')"
-    />
-    <div v-if="error" class="invalid-feedback d-block">
+    >
+    <div
+      v-if="error"
+      class="invalid-feedback d-block"
+    >
       {{ error }}
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed } from 'vue'; // eslint-disable-line no-unused-vars
 
-const props = defineProps({
+const props = defineProps({ // eslint-disable-line no-unused-vars
   modelValue: {
     type: [String, Number],
     default: '',
@@ -66,7 +76,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue', 'blur', 'focus']);
+const emit = defineEmits(['update:modelValue', 'blur', 'focus']); // eslint-disable-line no-unused-vars
 </script>
 
 <style scoped>
@@ -92,7 +102,9 @@ const emit = defineEmits(['update:modelValue', 'blur', 'focus']);
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 
 .form-control:focus {

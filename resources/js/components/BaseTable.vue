@@ -3,42 +3,70 @@
     <table class="table">
       <thead>
         <tr>
-          <th v-for="column in columns" :key="column.key" :style="{ width: column.width }">
+          <th
+            v-for="column in columns"
+            :key="column.key"
+            :style="{ width: column.width }"
+          >
             {{ column.label }}
           </th>
-          <th v-if="showActions" style="width: 150px">Hành động</th>
+          <th
+            v-if="showActions"
+            style="width: 150px"
+          >
+            Hành động
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr v-if="rows.length === 0">
-          <td :colspan="columns.length + (showActions ? 1 : 0)" class="text-center">
+          <td
+            :colspan="columns.length + (showActions ? 1 : 0)"
+            class="text-center"
+          >
             Không có dữ liệu
           </td>
         </tr>
-        <tr v-for="(row, index) in rows" :key="row.id || index">
-          <td v-for="column in columns" :key="column.key">
-            <slot :name="`cell-${column.key}`" :row="row" :column="column">
+        <tr
+          v-for="(row, index) in rows"
+          :key="row.id || index"
+        >
+          <td
+            v-for="column in columns"
+            :key="column.key"
+          >
+            <slot
+              :name="`cell-${column.key}`"
+              :row="row"
+              :column="column"
+            >
               {{ row[column.key] }}
             </slot>
           </td>
-          <td v-if="showActions" class="actions">
+          <td
+            v-if="showActions"
+            class="actions"
+          >
             <button
               v-if="showEdit"
               class="btn-action btn-edit"
-              @click="$emit('edit', row)"
               title="Chỉnh sửa"
+              @click="$emit('edit', row)"
             >
               ✎
             </button>
             <button
               v-if="showDelete"
               class="btn-action btn-delete"
-              @click="$emit('delete', row)"
               title="Xóa"
+              @click="$emit('delete', row)"
             >
               ✕
             </button>
-            <slot name="actions" :row="row"></slot>
+            <slot
+              name="actions"
+              :row="row"
+            />
           </td>
         </tr>
       </tbody>
@@ -51,7 +79,7 @@ defineProps({
   columns: {
     type: Array,
     required: true,
-    validator: (columns) => Array.isArray(columns) && columns.every(col => col.key && col.label),
+    validator: (columns) => Array.isArray(columns) && columns.every((col) => col.key && col.label),
   },
   rows: {
     type: Array,

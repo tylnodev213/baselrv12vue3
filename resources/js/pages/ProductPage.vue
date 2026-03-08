@@ -2,17 +2,26 @@
   <div class="product-page">
     <div class="page-header">
       <h1>Quản lý Sản phẩm</h1>
-      <button class="btn btn-primary" @click="handleNew">
+      <button
+        class="btn btn-primary"
+        @click="handleNew"
+      >
         + Thêm sản phẩm
       </button>
     </div>
 
-    <div v-if="productStore.isLoading" class="loading">
-      <div class="spinner"></div>
+    <div
+      v-if="productStore.isLoading"
+      class="loading"
+    >
+      <div class="spinner" />
       <p>Đang tải...</p>
     </div>
 
-    <div v-else class="content">
+    <div
+      v-else
+      class="content"
+    >
       <BaseTable
         :columns="columns"
         :rows="productStore.products"
@@ -30,8 +39,8 @@
       <div class="pagination">
         <button
           v-if="productStore.currentPage > 1"
-          @click="handlePreviousPage"
           class="btn btn-secondary"
+          @click="handlePreviousPage"
         >
           Trang trước
         </button>
@@ -40,8 +49,8 @@
         </span>
         <button
           v-if="productStore.currentPage < productStore.totalPages"
-          @click="handleNextPage"
           class="btn btn-secondary"
+          @click="handleNextPage"
         >
           Trang sau
         </button>
@@ -49,11 +58,20 @@
     </div>
 
     <!-- Product Form Modal -->
-    <div v-if="isFormOpen" class="modal-overlay" @click.self="closeForm">
+    <div
+      v-if="isFormOpen"
+      class="modal-overlay"
+      @click.self="closeForm"
+    >
       <div class="modal-content">
         <div class="modal-header">
           <h2>{{ isEditing ? 'Chỉnh sửa' : 'Thêm mới' }} sản phẩm</h2>
-          <button class="btn-close" @click="closeForm">✕</button>
+          <button
+            class="btn-close"
+            @click="closeForm"
+          >
+            ✕
+          </button>
         </div>
 
         <div class="modal-body">
@@ -92,8 +110,11 @@
                 :class="{ 'is-invalid': form.errors.description }"
                 placeholder="Nhập mô tả sản phẩm"
                 rows="4"
-              ></textarea>
-              <div v-if="form.errors.description" class="invalid-feedback d-block">
+              />
+              <div
+                v-if="form.errors.description"
+                class="invalid-feedback d-block"
+              >
                 {{ form.errors.description }}
               </div>
             </div>
@@ -226,18 +247,13 @@ const handleFormSubmit = async () => {
 
   let result;
   if (isEditing.value) {
-    result = await productStore.updateProduct(
-      productStore.currentProduct?.id,
-      payload
-    );
+    result = await productStore.updateProduct(productStore.currentProduct?.id, payload);
   } else {
     result = await productStore.createProduct(payload);
   }
 
   if (result.success) {
-    modal.showSuccess(
-      isEditing.value ? 'Cập nhật thành công!' : 'Tạo mới thành công!'
-    );
+    modal.showSuccess(isEditing.value ? 'Cập nhật thành công!' : 'Tạo mới thành công!');
     closeForm();
   } else {
     if (result.errors) {

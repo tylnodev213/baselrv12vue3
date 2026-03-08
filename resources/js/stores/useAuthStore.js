@@ -50,7 +50,7 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading.value = true;
     try {
       const response = await authService.register(payload);
-      
+
       if (response.data.success) {
         const { user: userData, access_token, refresh_token } = response.data.data;
         setUser(userData);
@@ -58,7 +58,7 @@ export const useAuthStore = defineStore('auth', () => {
         setRefreshToken(refresh_token);
         return { success: true, data: response.data.data };
       }
-      
+
       return {
         success: false,
         message: response.data.message,
@@ -82,7 +82,7 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading.value = true;
     try {
       const response = await authService.login(payload);
-      
+
       if (response.data.success) {
         const { user: userData, access_token, refresh_token } = response.data.data;
         setUser(userData);
@@ -90,7 +90,7 @@ export const useAuthStore = defineStore('auth', () => {
         setRefreshToken(refresh_token);
         return { success: true, data: response.data.data };
       }
-      
+
       return {
         success: false,
         message: response.data.message,
@@ -132,12 +132,12 @@ export const useAuthStore = defineStore('auth', () => {
   const refreshAccessToken = async () => {
     try {
       const response = await authService.refreshToken(refreshToken.value);
-      
+
       if (response.data.success) {
         setAccessToken(response.data.data.access_token);
         return { success: true };
       }
-      
+
       logout();
       return { success: false };
     } catch (error) {
@@ -152,12 +152,12 @@ export const useAuthStore = defineStore('auth', () => {
   const fetchUser = async () => {
     try {
       const response = await authService.me();
-      
+
       if (response.data.success) {
         setUser(response.data.data);
         return { success: true, data: response.data.data };
       }
-      
+
       return { success: false };
     } catch (error) {
       return { success: false };

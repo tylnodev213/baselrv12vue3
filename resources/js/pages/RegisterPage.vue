@@ -1,6 +1,8 @@
 <template>
   <div class="register-page">
-    <h2 class="page-title">Đăng ký</h2>
+    <h2 class="page-title">
+      Đăng ký
+    </h2>
 
     <BaseForm
       ref="formRef"
@@ -52,7 +54,14 @@
     </BaseForm>
 
     <div class="auth-footer">
-      <p>Đã có tài khoản? <router-link to="/auth/login" class="auth-link">Đăng nhập</router-link></p>
+      <p>
+        Đã có tài khoản? <router-link
+          to="/auth/login"
+          class="auth-link"
+        >
+          Đăng nhập
+        </router-link>
+      </p>
     </div>
 
     <BaseModal

@@ -2,7 +2,9 @@
   <div class="layout-auth">
     <div class="auth-container">
       <div class="auth-box">
-        <h1 class="auth-title">Laravel + Vue 3</h1>
+        <h1 class="auth-title">
+          Laravel + Vue 3
+        </h1>
         <RouterView />
       </div>
     </div>
