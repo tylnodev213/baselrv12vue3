@@ -1,22 +1,13 @@
 <template>
   <teleport to="body">
     <transition name="modal-fade">
-      <div
-        v-if="isOpen"
-        class="modal-overlay"
-        @click.self="handleCancel"
-      >
+      <div v-if="isVisible" class="modal-overlay" @click.self="handleCancel">
         <div class="modal-content">
           <div class="modal-header">
             <h2 class="modal-title">
               {{ title }}
             </h2>
-            <button
-              type="button"
-              class="btn-close"
-              :disabled="isLoading"
-              @click="handleCancel"
-            >
+            <button type="button" class="btn-close" :disabled="isLoading" @click="handleCancel">
               ✕
             </button>
           </div>
@@ -26,9 +17,10 @@
             <slot />
           </div>
 
-          <div class="modal-footer">
+          <div v-if="!hideFooter" class="modal-footer">
+            <!-- Cancel button for confirm type only -->
             <button
-              v-if="type === 'confirm' || type === 'error' || type === 'warning'"
+              v-if="type === 'confirm'"
               type="button"
               class="btn btn-secondary"
               :disabled="isLoading"
@@ -36,6 +28,8 @@
             >
               {{ cancelButtonText }}
             </button>
+
+            <!-- Confirm button for confirm or success type -->
             <button
               v-if="type === 'confirm' || type === 'success'"
               type="button"
@@ -50,8 +44,10 @@
                 {{ loadingText }}
               </span>
             </button>
+
+            <!-- Close button for other types that don't have a confirm button -->
             <button
-              v-if="type === 'info' || type === 'success' || type === 'error'"
+              v-if="type !== 'confirm' && type !== 'success'"
               type="button"
               class="btn btn-primary"
               :disabled="isLoading"
@@ -69,7 +65,15 @@
 <script setup>
 import { computed } from 'vue';
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: undefined,
+  },
   isOpen: {
     type: Boolean,
     default: false,
@@ -107,9 +111,17 @@ const props = defineProps({
     type: String,
     default: 'Đang xử lý...',
   },
+  hideFooter: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['confirm', 'cancel', 'close']);
+const emit = defineEmits(['confirm', 'cancel', 'close', 'update:modelValue']);
+
+const isVisible = computed(() => {
+  return props.modelValue !== undefined ? props.modelValue : props.isOpen;
+});
 
 const confirmButtonClass = computed(() => {
   switch (props.type) {
@@ -131,6 +143,7 @@ const handleConfirm = () => {
 };
 
 const handleCancel = () => {
+  emit('update:modelValue', false);
   emit('cancel');
 };
 </script>

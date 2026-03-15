@@ -12,6 +12,14 @@ import LoginPage from '@/pages/LoginPage.vue';
 import RegisterPage from '@/pages/RegisterPage.vue';
 import ProductPage from '@/pages/ProductPage.vue';
 
+// Admin Pages
+import AdminTeamPage from '@/pages/admin/AdminTeamPage.vue';
+import AdminUserPage from '@/pages/admin/AdminUserPage.vue';
+
+// User Pages
+import MyTeamPage from '@/pages/profile/MyTeamPage.vue';
+import ProfilePage from '@/pages/profile/ProfilePage.vue';
+
 const routes = [
   {
     path: '/',
@@ -27,6 +35,29 @@ const routes = [
         path: 'products',
         name: 'products',
         component: ProductPage,
+      },
+      {
+        path: 'profile',
+        name: 'profile',
+        component: ProfilePage,
+      },
+      {
+        path: 'my-team',
+        name: 'my-team',
+        component: MyTeamPage,
+      },
+      // Admin Routes
+      {
+        path: 'admin/teams',
+        name: 'admin.teams',
+        component: AdminTeamPage,
+        meta: { requiresAdmin: true },
+      },
+      {
+        path: 'admin/users',
+        name: 'admin.users',
+        component: AdminUserPage,
+        meta: { requiresAdmin: true },
       },
     ],
   },
@@ -82,6 +113,12 @@ router.beforeEach(async (to, from, next) => {
         next({ name: 'login' });
         return;
       }
+    }
+
+    // Kiểm tra quyền admin
+    if (to.meta.requiresAdmin && authStore.user?.role !== 'admin') {
+      next({ name: 'home' });
+      return;
     }
   }
 

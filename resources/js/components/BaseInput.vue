@@ -1,43 +1,49 @@
 <template>
-  <div class="form-group">
-    <label
-      v-if="label"
-      :for="id"
-      class="form-label"
-    >
+  <div class="soft-form-group">
+    <label v-if="label" :for="id" class="soft-label">
       {{ label }}
-      <span
-        v-if="required"
-        class="text-danger"
-      >*</span>
+      <span v-if="required" class="text-danger">*</span>
     </label>
-    <input
-      :id="id"
-      :type="type"
-      :value="modelValue"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :readonly="readonly"
-      :required="required"
-      class="form-control"
-      :class="{ 'is-invalid': error }"
-      @input="$emit('update:modelValue', $event.target.value)"
-      @blur="$emit('blur')"
-      @focus="$emit('focus')"
-    >
-    <div
-      v-if="error"
-      class="invalid-feedback d-block"
-    >
+    <div class="input-wrapper">
+      <input
+        v-if="type !== 'textarea'"
+        :id="id"
+        :type="type"
+        :value="modelValue"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :readonly="readonly"
+        :required="required"
+        class="soft-input"
+        :class="{ 'is-invalid': error }"
+        @input="$emit('update:modelValue', $event.target.value)"
+        @blur="$emit('blur')"
+        @focus="$emit('focus')"
+      />
+      <textarea
+        v-else
+        :id="id"
+        :value="modelValue"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :readonly="readonly"
+        :required="required"
+        class="soft-input textarea"
+        :class="{ 'is-invalid': error }"
+        rows="4"
+        @input="$emit('update:modelValue', $event.target.value)"
+        @blur="$emit('blur')"
+        @focus="$emit('focus')"
+      />
+    </div>
+    <div v-if="error" class="invalid-feedback d-block">
       {{ error }}
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'; // eslint-disable-line no-unused-vars
-
-const props = defineProps({ // eslint-disable-line no-unused-vars
+defineProps({
   modelValue: {
     type: [String, Number],
     default: '',
@@ -76,67 +82,73 @@ const props = defineProps({ // eslint-disable-line no-unused-vars
   },
 });
 
-const emit = defineEmits(['update:modelValue', 'blur', 'focus']); // eslint-disable-line no-unused-vars
+defineEmits(['update:modelValue', 'blur', 'focus']);
 </script>
 
 <style scoped>
-.form-group {
+.soft-form-group {
   margin-bottom: 1rem;
 }
 
-.form-label {
+.soft-label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #333;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #344767;
+  margin-left: 0.25rem;
 }
 
-.form-control {
+.soft-input {
   display: block;
   width: 100%;
   padding: 0.5rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.4rem;
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  transition:
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
+  border: 1px solid #d2d6da;
+  appearance: none;
+  border-radius: 0.5rem;
+  transition: all 0.15s ease-in-out;
+  outline: none;
 }
 
-.form-control:focus {
+.soft-input:focus {
   color: #495057;
   background-color: #fff;
-  border-color: #80bdff;
+  border-color: #cb0c9f;
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 2px rgba(203, 12, 159, 0.2);
 }
 
-.form-control.is-invalid {
-  border-color: #dc3545;
+.soft-input.is-invalid {
+  border-color: #fd5c70;
 }
 
-.form-control.is-invalid:focus {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+.soft-input.is-invalid:focus {
+  box-shadow: 0 0 0 2px rgba(253, 92, 112, 0.2);
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 .invalid-feedback {
-  display: none;
-  width: 100%;
   margin-top: 0.25rem;
-  font-size: 0.875rem;
-  color: #dc3545;
+  font-size: 0.75rem;
+  color: #fd5c70;
+  margin-left: 0.25rem;
 }
 
-.invalid-feedback.d-block {
+.d-block {
   display: block;
 }
 
 .text-danger {
-  color: #dc3545;
+  color: #fd5c70;
 }
 </style>

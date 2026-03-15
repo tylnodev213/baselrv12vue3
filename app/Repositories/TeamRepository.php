@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Models\Team;
+use Illuminate\Database\Eloquent\Model;
+
+class TeamRepository extends BaseRepository
+{
+    protected function getModel(): Model
+    {
+        return new Team();
+    }
+}

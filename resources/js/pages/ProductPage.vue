@@ -2,26 +2,15 @@
   <div class="product-page">
     <div class="page-header">
       <h1>Quản lý Sản phẩm</h1>
-      <button
-        class="btn btn-primary"
-        @click="handleNew"
-      >
-        + Thêm sản phẩm
-      </button>
+      <button class="btn btn-primary" @click="handleNew">+ Thêm sản phẩm</button>
     </div>
 
-    <div
-      v-if="productStore.isLoading"
-      class="loading"
-    >
+    <div v-if="productStore.isLoading" class="loading">
       <div class="spinner" />
       <p>Đang tải...</p>
     </div>
 
-    <div
-      v-else
-      class="content"
-    >
+    <div v-else class="content">
       <BaseTable
         :columns="columns"
         :rows="productStore.products"
@@ -58,70 +47,49 @@
     </div>
 
     <!-- Product Form Modal -->
-    <div
-      v-if="isFormOpen"
-      class="modal-overlay"
-      @click.self="closeForm"
+    <BaseModal
+      v-model="isFormOpen"
+      :title="isEditing ? 'Chỉnh sửa sản phẩm' : 'Thêm mới sản phẩm'"
+      hide-footer
     >
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>{{ isEditing ? 'Chỉnh sửa' : 'Thêm mới' }} sản phẩm</h2>
-          <button
-            class="btn-close"
-            @click="closeForm"
-          >
-            ✕
-          </button>
+      <BaseForm
+        :submit-text="isEditing ? 'Cập nhật' : 'Tạo mới'"
+        @submit="handleFormSubmit"
+        @cancel="closeForm"
+      >
+        <BaseInput
+          v-model="form.name"
+          type="text"
+          label="Tên sản phẩm"
+          placeholder="Nhập tên sản phẩm"
+          :error="form.errors.name"
+          required
+        />
+
+        <BaseInput
+          v-model="form.price"
+          type="number"
+          label="Giá"
+          placeholder="Nhập giá"
+          :error="form.errors.price"
+          required
+        />
+
+        <div class="soft-form-group mb-4">
+          <label class="soft-label">Mô tả</label>
+          <textarea
+            v-model="form.description"
+            class="soft-textarea"
+            :class="{ 'is-invalid': form.errors.description }"
+            placeholder="Nhập mô tả sản phẩm"
+            rows="4"
+          ></textarea>
+          <div v-if="form.errors.description" class="text-danger text-xs mt-1">
+            {{ form.errors.description }}
+          </div>
         </div>
-
-        <div class="modal-body">
-          <BaseForm
-            :submit-text="isEditing ? 'Cập nhật' : 'Tạo mới'"
-            :submit-loading-text="'Đang xử lý...'"
-            :on-submit="handleFormSubmit"
-            :show-cancel="true"
-            @cancel="closeForm"
-          >
-            <BaseInput
-              v-model="form.name"
-              type="text"
-              label="Tên sản phẩm"
-              placeholder="Nhập tên sản phẩm"
-              :error="form.errors.name"
-              required
-              @blur="handleFieldTouched('name')"
-            />
-
-            <BaseInput
-              v-model="form.price"
-              type="number"
-              label="Giá"
-              placeholder="Nhập giá"
-              :error="form.errors.price"
-              required
-              @blur="handleFieldTouched('price')"
-            />
-
-            <div class="form-group">
-              <label class="form-label">Mô tả</label>
-              <textarea
-                v-model="form.description"
-                class="form-textarea"
-                :class="{ 'is-invalid': form.errors.description }"
-                placeholder="Nhập mô tả sản phẩm"
-                rows="4"
-              />
-              <div
-                v-if="form.errors.description"
-                class="invalid-feedback d-block"
-              >
-                {{ form.errors.description }}
-              </div>
-            </div>
-          </BaseForm>
-        </div>
-      </div>
-    </div>
+      </BaseForm>
+    </BaseModal>
 
     <!-- Modal confirm delete -->
     <BaseModal
@@ -146,7 +114,18 @@ import BaseTable from '@/components/BaseTable.vue';
 import BaseModal from '@/components/BaseModal.vue';
 
 const productStore = useProductStore();
-const { isOpen, title, message, type, isLoading, confirm, cancel, showConfirm, showSuccess, showError } = useModal();
+const {
+  isOpen,
+  title,
+  message,
+  type,
+  isLoading,
+  confirm,
+  cancel,
+  showConfirm,
+  showSuccess,
+  showError,
+} = useModal();
 
 const columns = [
   { key: 'id', label: 'ID', width: '60px' },
@@ -157,6 +136,7 @@ const columns = [
 
 const isFormOpen = ref(false);
 const isEditing = ref(false);
+const currentId = ref(null);
 
 const form = reactive({
   name: '',
@@ -176,6 +156,7 @@ const closeForm = () => {
 };
 
 const resetForm = () => {
+  currentId.value = null;
   form.name = '';
   form.price = '';
   form.description = '';
@@ -216,6 +197,7 @@ const handleNew = () => {
 
 const handleEdit = (product) => {
   isEditing.value = true;
+  currentId.value = product.id;
   form.name = product.name;
   form.price = product.price;
   form.description = product.description || '';
@@ -247,7 +229,7 @@ const handleFormSubmit = async () => {
 
   let result;
   if (isEditing.value) {
-    result = await productStore.updateProduct(productStore.currentProduct?.id, payload);
+    result = await productStore.updateProduct(currentId.value, payload);
   } else {
     result = await productStore.createProduct(payload);
   }
@@ -378,112 +360,4 @@ onMounted(() => {
   font-weight: 500;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  max-width: 500px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.modal-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #212529;
-}
-
-.btn-close {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #6c757d;
-  cursor: pointer;
-  padding: 0;
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
-}
-
-.btn-close:hover {
-  color: #212529;
-}
-
-.modal-body {
-  padding: 1.5rem;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #333;
-}
-
-.form-textarea {
-  display: block;
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  font-family: inherit;
-  resize: vertical;
-}
-
-.form-textarea:focus {
-  color: #495057;
-  background-color: #fff;
-  border-color: #80bdff;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-.form-textarea.is-invalid {
-  border-color: #dc3545;
-}
-
-.invalid-feedback {
-  display: none;
-  width: 100%;
-  margin-top: 0.25rem;
-  font-size: 0.875rem;
-  color: #dc3545;
-}
-
-.invalid-feedback.d-block {
-  display: block;
-}
 </style>

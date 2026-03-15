@@ -1,8 +1,6 @@
 <template>
   <div class="login-page">
-    <h2 class="page-title">
-      Đăng nhập
-    </h2>
+    <h2 class="page-title">Đăng nhập</h2>
 
     <BaseForm
       ref="formRef"
@@ -36,12 +34,7 @@
     <div class="auth-footer">
       <p>
         Chưa có tài khoản?
-        <router-link
-          to="/auth/register"
-          class="auth-link"
-        >
-          Đăng ký ngay
-        </router-link>
+        <router-link to="/auth/register" class="auth-link"> Đăng ký ngay </router-link>
       </p>
     </div>
 
@@ -68,7 +61,7 @@ import BaseModal from '@/components/BaseModal.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const { isOpen, title, message, type, isLoading, confirm, cancel, showSuccess, showError } = useModal();
+const { isOpen, title, message, type, isLoading, confirm, cancel, showError } = useModal();
 const formRef = ref(null);
 
 const form = reactive({
@@ -118,18 +111,17 @@ const handleSubmit = async () => {
   });
 
   if (result.success) {
-    showSuccess('Đăng nhập thành công!');
-    setTimeout(() => {
-      router.push({ name: 'home' });
-    }, 1500);
+    router.push({ name: 'home' });
   } else {
     // Hiển thị lỗi
     if (result.errors) {
       Object.entries(result.errors).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          form.errors[key] = value[0];
+        const errorMessage = Array.isArray(value) ? value[0] : value;
+
+        if (key === 'credentials') {
+          form.errors.email = errorMessage;
         } else {
-          form.errors[key] = value;
+          form.errors[key] = errorMessage;
         }
       });
     } else {

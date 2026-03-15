@@ -1,16 +1,9 @@
 <template>
-  <form
-    class="form"
-    @submit.prevent="handleSubmit"
-  >
+  <form class="form" @submit.prevent="handleSubmit">
     <slot />
 
     <div class="form-actions">
-      <button
-        type="submit"
-        :disabled="isSubmitting"
-        class="btn btn-primary"
-      >
+      <button type="submit" :disabled="isSubmitting" class="btn btn-primary">
         <span v-if="!isSubmitting">{{ submitText }}</span>
         <span v-else>
           <span class="spinner-border spinner-border-sm me-2" />
@@ -53,7 +46,7 @@ const props = defineProps({
   },
   onSubmit: {
     type: Function,
-    required: true,
+    default: null,
   },
   onCancel: {
     type: Function,
@@ -83,12 +76,15 @@ const handleSubmit = async () => {
     emit('submit', { requiresConfirmation: true });
     return;
   }
+  emit('submit');
 
-  isSubmitting.value = true;
-  try {
-    await props.onSubmit();
-  } finally {
-    isSubmitting.value = false;
+  if (props.onSubmit) {
+    isSubmitting.value = true;
+    try {
+      await props.onSubmit();
+    } finally {
+      isSubmitting.value = false;
+    }
   }
 };
 
@@ -104,7 +100,7 @@ const executeSubmit = async () => {
   try {
     if (props.onConfirm) {
       await props.onConfirm();
-    } else {
+    } else if (props.onSubmit) {
       await props.onSubmit();
     }
   } finally {

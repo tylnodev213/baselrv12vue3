@@ -1,8 +1,6 @@
 <template>
   <div class="register-page">
-    <h2 class="page-title">
-      Đăng ký
-    </h2>
+    <h2 class="page-title">Đăng ký</h2>
 
     <BaseForm
       ref="formRef"
@@ -55,12 +53,7 @@
 
     <div class="auth-footer">
       <p>
-        Đã có tài khoản? <router-link
-          to="/auth/login"
-          class="auth-link"
-        >
-          Đăng nhập
-        </router-link>
+        Đã có tài khoản? <router-link to="/auth/login" class="auth-link"> Đăng nhập </router-link>
       </p>
     </div>
 
@@ -87,7 +80,8 @@ import BaseModal from '@/components/BaseModal.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const { isOpen, title, message, type, isLoading, confirm, cancel, showSuccess, showError } = useModal();
+const { isOpen, title, message, type, isLoading, confirm, cancel, showSuccess, showError } =
+  useModal();
 const formRef = ref(null);
 
 const form = reactive({

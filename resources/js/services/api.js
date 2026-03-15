@@ -5,18 +5,18 @@ import { useAuthStore } from '@/stores/useAuthStore';
 // Get API URL - VITE_API_URL can be relative path or full URL
 const getApiUrl = () => {
   const envUrl = import.meta.env.VITE_API_URL;
-  
+
   // If it's a relative path (starts with /), keep it relative
   // Vite proxy will handle forwarding
   if (envUrl && envUrl.startsWith('/')) {
     return envUrl;
   }
-  
+
   // If it's a full URL, use it
   if (envUrl) {
     return envUrl;
   }
-  
+
   // Fallback: construct from current domain
   return `${window.location.origin}/api`;
 };

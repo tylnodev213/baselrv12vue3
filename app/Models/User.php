@@ -16,6 +16,10 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'team_id',
+        'role',
+        'phone',
+        'notes',
         'del_flag',
     ];
 
@@ -27,7 +31,16 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'del_flag' => DeleteFlag::class,
+        'role' => \App\Enums\UserRole::class,
     ];
+
+    /**
+     * Get the team that the user belongs to
+     */
+    public function team(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
 
     /**
      * Implement JWTSubject methods
